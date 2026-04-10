@@ -94,6 +94,8 @@ export function calculateUserScore(
   const repoScore = calculateRepoScore(data.repos);
   const prScore = calculatePRScore(data.pullRequests, username);
   const contributionScore = calculateContributionScore(data.contributions);
+contributionScore = Math.min(contributionScore, 0.3 * (repoScore.total + prScore.total))
+
 
   const finalScore =
     repoScore.total * 0.4 + prScore.total * 0.4 + contributionScore * 0.2;
