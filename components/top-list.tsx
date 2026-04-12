@@ -28,6 +28,7 @@ type Props = {
 export function TopList({ userResults }: Props) {
   const cardDetails = (data: {
     title: string;
+    titleUrl?: string;
     subtitle?: string;
     score?: number;
     badges: { tooltip?: string; label?: ReactNode; icon: ReactNode }[];
@@ -38,7 +39,20 @@ export function TopList({ userResults }: Props) {
       key={data.key}
     >
       <div>
-        <div className="font-medium text-slate-900">{data.title}</div>
+        <div className="font-medium text-slate-900">
+          {data.titleUrl ? (
+            <a
+              href={data.titleUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline text-primary"
+            >
+              {data.title}
+            </a>
+          ) : (
+            data.title
+          )}
+        </div>
         <div className="text-xs text-muted-foreground mt-1">
           {data.subtitle}
         </div>
@@ -126,6 +140,7 @@ export function TopList({ userResults }: Props) {
                   cardDetails({
                     key: `pr-${i}`,
                     title: pr.title || "Untitled Pull Request",
+                    titleUrl: pr.url,
                     subtitle: `in ${pr.repo}`,
                     score: pr.score,
                     badges: [
